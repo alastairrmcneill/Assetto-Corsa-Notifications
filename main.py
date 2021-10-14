@@ -38,11 +38,11 @@ try:
     live_best_row = live_table.find_element_by_class_name("driver-row")
     live_best_driver = live_best_row.find_element_by_class_name("driver-link").text
     live_best_time = live_best_row.find_element_by_class_name("best-lap").text
-    live_best_time = convert_text_to_time(live_best_time)
+    live_best_time_num = convert_text_to_time(live_best_time)
 
 except:
     live_best_driver = ""
-    live_best_time = -1
+    live_best_time_num = -1
 
 # Disconnected best time
 try:
@@ -50,19 +50,31 @@ try:
     offline_best_row = offline_table.find_element_by_class_name("driver-row")
     offline_best_driver = offline_best_row.find_element_by_class_name("driver-name").text
     offline_best_time = offline_best_row.find_element_by_class_name("best-lap").text
-    offline_best_time = convert_text_to_time(offline_best_time)
+    offline_best_time_num = convert_text_to_time(offline_best_time)
 except:
     offline_best_driver = ""
-    offline_best_time = -1
+    offline_best_time_num = -1
 
 
-# # Compare best times
+# Compare best times
 
-# if live_best_time > 0 or offline_best_time >0:
-#     if
+if live_best_time_num > 0 or offline_best_time_num >0:
+    if live_best_time_num > offline_best_time_num:
+        leader = {"Driver": live_best_driver,
+                  "Lap time": live_best_time}
+    elif offline_best_time_num > live_best_time_num:
+        leader = {"Driver": offline_best_driver,
+                  "Lap time": offline_best_time}
+    else:
+        print("There is a tie")
+        leader = {}
 
-# else:
-#     print("No time has been set")
+else:
+    print("No time has been set")
 
+
+message = "The current leader is " + leader["Driver"] + " with a time of " + leader["Lap time"] + "."
+
+print(message)
 
 driver.quit()
