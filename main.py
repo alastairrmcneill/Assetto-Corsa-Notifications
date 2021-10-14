@@ -4,6 +4,7 @@ from credentials import username, password
 import os
 import time
 from datetime import datetime
+import pywhatkit
 
 
 
@@ -76,5 +77,8 @@ else:
 message = "The current leader is " + leader["Driver"] + " with a time of " + leader["Lap time"] + "."
 
 print(message)
+
+
+
 
 driver.quit()
