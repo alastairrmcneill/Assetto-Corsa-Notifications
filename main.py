@@ -1,22 +1,22 @@
-import requests
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from credentials import username, password
+import os
 import time
-import credentials
 
 
-LOGIN_URL = 'http://149.7.16.11:8840/login'
-TIMINGS_URL = 'http://149.7.16.11:8840/live-timing'
+APPLICATION_PATH = os.path.dirname(__file__)
+driver = webdriver.Chrome(APPLICATION_PATH + '/chromedriver')
+
+driver.get('http://149.7.16.11:8840/login')
+
+username_field = driver.find_element_by_id("Username")
+password_field = driver.find_element_by_id("Password")
+
+username_field.send_keys(username)
+password_field.send_keys(password)
+password_field.send_keys(Keys.RETURN)
 
 
-payload = {
-    'Username': credentials.username,
-    'Password': credentials.password
-}
-
-with requests.session() as s:
-    s.post(LOGIN_URL, data = payload)
-    r = s.get(TIMINGS_URL)
-
-    print(r.text)
-
-
-
+time.sleep(3)
+driver.quit()
