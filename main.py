@@ -1,10 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from credentials import username, password
+from credentials import ACSERVER
 import os
 import time
 from datetime import datetime
-import pywhatkit
 
 
 
@@ -24,8 +23,8 @@ driver.get('http://149.7.16.11:8840/login')
 username_field = driver.find_element_by_id("Username")
 password_field = driver.find_element_by_id("Password")
 
-username_field.send_keys(username)
-password_field.send_keys(password)
+username_field.send_keys(ACSERVER.username)
+password_field.send_keys(ACSERVER.password)
 password_field.send_keys(Keys.RETURN)
 
 driver.get('http://149.7.16.11:8840/live-timing')
@@ -79,6 +78,5 @@ message = "The current leader is " + leader["Driver"] + " with a time of " + lea
 print(message)
 
 
-
-
 driver.quit()
+
