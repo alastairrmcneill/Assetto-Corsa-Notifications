@@ -1,8 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from credentials import ACSERVER
+from credentials import ACSERVER, GOOGLE
 import os
 import time
+import smtplib
 from datetime import datetime
 
 
@@ -14,7 +15,7 @@ def convert_text_to_time(time_text):
     return time_num
 
 
-
+# Gather data
 APPLICATION_PATH = os.path.dirname(__file__)
 driver = webdriver.Chrome(APPLICATION_PATH + '/chromedriver')
 
@@ -73,10 +74,31 @@ else:
     print("No time has been set")
 
 
-message = "The current leader is " + leader["Driver"] + " with a time of " + leader["Lap time"] + "."
-
-print(message)
-
-
 driver.quit()
+
+
+
+# Send notification
+
+
+with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+    smtp.ehlo()
+    smtp.starttls()
+    smtp.ehlo()
+
+    smtp.login(GOOGLE.email, GOOGLE.app_password)
+
+    subject = "The current leader is " + leader["Driver"] + " with a time of " + leader["Lap time"] + "."
+    body = ''
+
+    msg = f'Subject: {subject} \n\n {body}'
+
+    sender = GOOGLE.email
+    receiver = GOOGLE.email
+
+    smtp.sendmail(sender, receiver, msg)
+
+print(subject)
+
+
 
