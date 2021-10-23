@@ -64,7 +64,7 @@ try:
     leader['Track'] = track.text
     leader['Car'] = car.text
 except:
-    print("No event")
+    print("No event is currently being run")
 
 
 # Get timings
@@ -108,19 +108,13 @@ if live_best_time_num > 0 or offline_best_time_num >0:
         leader['Lap time'] = offline_best_time
         leader['Lap time number'] = offline_best_time_num
 
-    else:
-        print("There is a tie")
-        leader = {}
-
-else:
-    print("No time has been set")
 
 
 driver.quit()
 
 
 
-# Compare to previous best time
+# Compare to previous results
 with open('results.json', 'r') as f:
     data = json.load(f)
 
@@ -128,7 +122,6 @@ event = data["Events"][-1]
 
 if event["Track"] == leader["Track"] and event["Car"] == leader["Car"]:
     if leader["Lap time number"] < event["Lap time number"]:
-        print("This is a new lap record")
 
         # Send email
         subject = "The current leader is " + leader["Driver"] + " with a time of " + leader["Lap time"] + "."
